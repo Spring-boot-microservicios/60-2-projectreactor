@@ -1,6 +1,7 @@
 package org.angelfg;
 
 import lombok.extern.java.Log;
+import org.angelfg.pipelines.PipelineToSelling;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -9,7 +10,10 @@ public class Main {
 
     public static void main(String[] args) {
         // basesMono();
-        basesFlux();
+        // basesFlux();
+
+        PipelineToSelling.getTopSellingVideogames()
+                .subscribe(v -> System.out.println(v));
     }
 
     private static void basesFlux() {
