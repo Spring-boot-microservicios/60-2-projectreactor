@@ -13,7 +13,7 @@ public class PipelineSumAllPricesInDiscount {
         return Database.getVideogamesFlux()
                 .filter(Videogame::getIsDiscount)
                 .map(Videogame::getPrice)
-                .reduce(Double::sum);
+                .reduce(0.0, Double::sum);
     }
 
 }
