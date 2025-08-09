@@ -1,6 +1,7 @@
 package org.angelfg;
 
 import lombok.extern.java.Log;
+import org.angelfg.pipelines.PipelineAllComments;
 import org.angelfg.pipelines.PipelineSumAllPricesInDiscount;
 import org.angelfg.pipelines.PipelineToSelling;
 import reactor.core.publisher.Flux;
@@ -18,6 +19,9 @@ public class Main {
 
         PipelineSumAllPricesInDiscount.getSumAllPricesInDiscount()
                 .subscribe(v -> System.out.println(v));
+
+        PipelineAllComments.getAllReviewsComments()
+                .subscribe(c -> System.out.println(c));
     }
 
     private static void basesFlux() {
