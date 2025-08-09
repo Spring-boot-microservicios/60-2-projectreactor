@@ -9,6 +9,7 @@ public enum Console {
     NINTENDO,
     PC,
     MOBILE,
-    ALL
+    ALL,
+    DISABLED
 }
 

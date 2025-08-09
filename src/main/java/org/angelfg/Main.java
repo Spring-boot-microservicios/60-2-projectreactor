@@ -1,6 +1,7 @@
 package org.angelfg;
 
 import lombok.extern.java.Log;
+import org.angelfg.errorhandler.HandleDisabledVideogame;
 import org.angelfg.pipelines.PipelineAllComments;
 import org.angelfg.pipelines.PipelineSumAllPricesInDiscount;
 import org.angelfg.pipelines.PipelineToSelling;
@@ -19,6 +20,10 @@ public class Main {
         // combinacionFlujos();
         // operadorConcatAndMerge();
         // tuplas();
+
+        HandleDisabledVideogame.handleDisabledVideogames()
+                .subscribe(System.out::println);
+
     }
 
     private static void tuplas() {

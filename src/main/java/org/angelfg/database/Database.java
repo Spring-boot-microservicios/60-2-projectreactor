@@ -49,7 +49,7 @@ public class Database {
                 Videogame.builder()
                         .name("Assassin's Creed Origins")
                         .price(15.55)
-                        .console(Console.ALL)
+                        .console(Console.DISABLED)
                         .reviews(List.of(
                                 new Review("Ambientación en Egipto espectacular", 5)
                         ))
@@ -61,7 +61,7 @@ public class Database {
                 Videogame.builder()
                         .name("Assassin's Creed Odyssey")
                         .price(15.55)
-                        .console(Console.ALL)
+                        .console(Console.DISABLED)
                         .reviews(List.of(
                                 new Review("Entorno griego inmersivo", 5),
                                 new Review("Historia extensa", 5),
@@ -75,7 +75,7 @@ public class Database {
                 Videogame.builder()
                         .name("Assassin's Creed Valhalla")
                         .price(30.33)
-                        .console(Console.ALL)
+                        .console(Console.DISABLED)
                         .reviews(List.of(
                                 new Review("Gran mejora en el sistema de combate", 4),
                                 new Review("La ambientación vikinga es genial", 3),
@@ -410,5 +410,23 @@ public class Database {
 
         return Flux.fromIterable(videogames);
     }
+
+    public static Flux<Videogame> fluxAssassinsDefault = Flux.just(
+            Videogame.builder()
+                    .name("Assassin's Creed Origins (V2)")
+                    .price(19.99)
+                    .console(Console.ALL)
+                    .build(),
+            Videogame.builder()
+                    .name("Assassin's Creed Odyssey (V2)")
+                    .price(19.99)
+                    .console(Console.ALL)
+                    .build(),
+            Videogame.builder()
+                    .name("Assassin's Creed Valhalla (V2)")
+                    .price(29.99)
+                    .console(Console.ALL)
+                    .build()
+    );
 
 }
