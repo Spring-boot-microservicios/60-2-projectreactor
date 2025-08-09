@@ -18,7 +18,18 @@ public class HandleDisabledVideogame {
                     }
 
                     sink.next(vg);
-                });
+                })
+                .onErrorResume(error -> {
+                    System.out.println("Error detected: " + error.getMessage());
+
+                    // return Database.fluxAssassinsDefault;
+                    return Flux.merge(
+                            Database.getVideogamesFlux(),
+                            Database.fluxAssassinsDefault
+                    );
+                })
+                .cast(Videogame.class)
+                .distinct(Videogame::getName); // omite
     }
 
 }
