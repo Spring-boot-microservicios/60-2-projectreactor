@@ -14,6 +14,29 @@ public class Main {
         // basesMono();
         // basesFlux();
 
+        // pipelines();
+
+        combinacionFlujos();
+
+    }
+
+    private static void combinacionFlujos() {
+        Flux<String> fluxA = Flux.just("1", "2"); // From reactive mongo
+        Flux<String> fluxB = Flux.just("A", "B", "C"); // From Webclient
+
+        Flux<String> combinedFlux = fluxA.flatMap(
+                strA -> fluxB.map(strB -> strA + "-" + strB)
+        );
+
+        //combinedFlux.subscribe(System.out::println);
+
+        combinedFlux
+                .map(String::toLowerCase)
+                .doOnNext(System.out::println)
+                .subscribe();
+    }
+
+    private static void pipelines() {
         PipelineToSelling.getTopSellingVideogames()
                 .subscribe(v -> System.out.println(v));
 
