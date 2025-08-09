@@ -7,17 +7,57 @@ import org.angelfg.pipelines.PipelineToSelling;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 @Log
 public class Main {
 
     public static void main(String[] args) {
         // basesMono();
         // basesFlux();
-
         // pipelines();
+        // combinacionFlujos();
+        // operadorConcatAndMerge();
+        // tuplas();
+    }
 
-        combinacionFlujos();
+    private static void tuplas() {
+        // Funciona en tupla
+        Flux<String> fluxProducts = Flux.just("Product1", "Product2", "Product3").delayElements(Duration.ofMillis(120));
+        Flux<String> fluxWarehouse = Flux.just("Stock1", "Stock2", "Stock3").delayElements(Duration.ofMillis(50));
+        Flux<String> fluxPayments = Flux.just("Pay1", "Pay2", "Pay3").delayElements(Duration.ofMillis(150));
+        Flux<String> fluxSuccess = Flux.just("Success1", "Success2", "Success3").delayElements(Duration.ofMillis(20));
 
+        Flux<String> reportFlux = Flux.zip(fluxProducts, fluxWarehouse, fluxPayments, fluxSuccess)
+                        .map(tuple ->
+                                tuple.getT1() + " " +
+                                tuple.getT2() + " " +
+                                tuple.getT3() + " " +
+                                tuple.getT4()
+                        );
+
+        reportFlux
+                .doOnNext(System.out::println)
+                .blockLast();
+    }
+
+    private static void operadorConcatAndMerge() {
+        // Scheduling -> .delayElements(Duration.ofMillis(100));
+        Flux<String> fluxA = Flux.just("1", "2").delayElements(Duration.ofMillis(100)); // From reactive mongo
+        Flux<String> fluxB = Flux.just("A", "B", "C").delayElements(Duration.ofMillis(50)); // From Webclient
+
+        Flux<String> combinedFlux1 = Flux.merge(fluxA, fluxB); // Combino elementos (En scheduling los pone segun termine)
+        Flux<String> combinedFlux2 = Flux.concat(fluxA, fluxB); // Pega los flujos (En scheduling se espera a que terminen y los acomoda)
+
+        combinedFlux1
+                .doOnNext(System.out::println)
+                .blockLast();
+        //.subscribe(System.out::println);
+
+        System.out.println();
+        combinedFlux2
+                .doOnNext(System.out::println)
+                .blockLast();
     }
 
     private static void combinacionFlujos() {
