@@ -1,6 +1,6 @@
 package org.angelfg;
 
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.angelfg.errorhandler.HandleDisabledVideogame;
 import org.angelfg.pipelines.PipelineAllComments;
 import org.angelfg.pipelines.PipelineSumAllPricesInDiscount;
@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 
-@Log
+@Slf4j
 public class Main {
 
     public static void main(String[] args) {
@@ -25,7 +25,7 @@ public class Main {
 //                .subscribe(System.out::println);
 
         HandleDisabledVideogame.handleDisabledVideogamesDefault()
-                .subscribe(System.out::println);
+                .subscribe(v -> log.info(v.toString()));
 
     }
 
