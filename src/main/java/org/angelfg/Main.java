@@ -21,7 +21,10 @@ public class Main {
         // operadorConcatAndMerge();
         // tuplas();
 
-        HandleDisabledVideogame.handleDisabledVideogames()
+//        HandleDisabledVideogame.handleDisabledVideogames()
+//                .subscribe(System.out::println);
+
+        HandleDisabledVideogame.handleDisabledVideogamesDefault()
                 .subscribe(System.out::println);
 
     }
