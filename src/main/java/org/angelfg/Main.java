@@ -19,7 +19,7 @@ import java.time.Duration;
 @Slf4j
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // basesMono();
         // basesFlux();
         // pipelines();
@@ -37,7 +37,46 @@ public class Main {
 //                .subscribe(v -> log.info(v.toString()));
 
         // callbacks();
+        // context();
 
+        // Comportamiento por defecto
+        Flux<Integer> coldPublisher = Flux.range(1, 10);
+
+        log.info("Cold publisher");
+
+        log.info("Subs 1 sibscribed");
+        coldPublisher.subscribe(n -> log.info("[s1] {}", n));
+
+        log.info("Subs 2 sibscribed");
+        coldPublisher.subscribe(n -> log.info("[s2] {}", n));
+
+        log.info("Subs 3 sibscribed");
+        coldPublisher.subscribe(n -> log.info("[s3] {}", n));
+
+
+        // Lo utilizamos cuando hacemos streaming (sockets)
+        Flux<Long> hotPublisher = Flux.interval(Duration.ofSeconds(1))
+                .publish() // publica lo del interval: 1,2,3,4s
+                .autoConnect(); // Espera a que haya un subscriptor para empezar a emitir
+
+        log.info("Hot publisher");
+
+        log.info("Subs 4 sibscribed");
+        hotPublisher.subscribe(n -> log.info("[s4] {}", n));
+
+        Thread.sleep(2000);
+        log.info("Subs 5 sibscribed");
+        hotPublisher.subscribe(n -> log.info("[s5] {}", n));
+
+        Thread.sleep(1000);
+        log.info("Subs 6 sibscribed");
+        hotPublisher.subscribe(n -> log.info("[s6] {}", n));
+
+        Thread.sleep(10000);
+
+    }
+
+    private static void context() {
         // User 1 = XBOX, User 2 = PLAYSTATION (recomendaciones en base al usuario)
         // Contexto
 
@@ -57,7 +96,6 @@ public class Main {
                     return Mono.just(false);
                 }))
                 .subscribe(videogame -> log.info("Recommended name {} console {}", videogame.getName(), videogame.getConsole()));
-
     }
 
     public static boolean videogameForConsole(Videogame videogame, Console console) {
