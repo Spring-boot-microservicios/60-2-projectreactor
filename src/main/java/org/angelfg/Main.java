@@ -2,13 +2,17 @@ package org.angelfg;
 
 import lombok.extern.slf4j.Slf4j;
 import org.angelfg.callbacks.CallbacksExample;
+import org.angelfg.database.Database;
 import org.angelfg.errorhandler.FallbackService;
 import org.angelfg.errorhandler.HandleDisabledVideogame;
+import org.angelfg.models.Console;
+import org.angelfg.models.Videogame;
 import org.angelfg.pipelines.PipelineAllComments;
 import org.angelfg.pipelines.PipelineSumAllPricesInDiscount;
 import org.angelfg.pipelines.PipelineToSelling;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.context.Context;
 
 import java.time.Duration;
 
@@ -32,9 +36,32 @@ public class Main {
 //        FallbackService.callFallback()
 //                .subscribe(v -> log.info(v.toString()));
 
-
         // callbacks();
 
+        // User 1 = XBOX, User 2 = PLAYSTATION (recomendaciones en base al usuario)
+        // Contexto
+
+        Database.getVideogamesFlux()
+                // Es asincrono el filter normal no
+                .filterWhen(videogame -> Mono.deferContextual(ctx -> {
+
+                    var userId = ctx.getOrDefault("userId", "0");
+
+                    if (userId.startsWith("1")) {
+                        return Mono.just(videogameForConsole(videogame, Console.XBOX));
+                    } else if (userId.startsWith("2")) {
+                        return Mono.just(videogameForConsole(videogame, Console.PLAYSTATION));
+                    }
+
+                    return Mono.just(false);
+                }))
+                .contextWrite(Context.of("userId", "10020192")) // Contexto siempre es antes del subscribe
+                .subscribe(videogame -> log.info("Recommended name {} console {}", videogame.getName(), videogame.getConsole()));
+
+    }
+
+    public static boolean videogameForConsole(Videogame videogame, Console console) {
+        return videogame.getConsole() == console || videogame.getConsole() == Console.ALL;
     }
 
     private static void callbacks() {
