@@ -42,10 +42,11 @@ public class Main {
         // Contexto
 
         Database.getVideogamesFlux()
+                .contextWrite(Context.of("userId", "10020192")) // Contexto siempre es antes del subscribe
                 // Es asincrono el filter normal no
                 .filterWhen(videogame -> Mono.deferContextual(ctx -> {
 
-                    var userId = ctx.getOrDefault("userId", "0");
+                    String userId = ctx.getOrDefault("userId", "0");
 
                     if (userId.startsWith("1")) {
                         return Mono.just(videogameForConsole(videogame, Console.XBOX));
@@ -55,7 +56,6 @@ public class Main {
 
                     return Mono.just(false);
                 }))
-                .contextWrite(Context.of("userId", "10020192")) // Contexto siempre es antes del subscribe
                 .subscribe(videogame -> log.info("Recommended name {} console {}", videogame.getName(), videogame.getConsole()));
 
     }
