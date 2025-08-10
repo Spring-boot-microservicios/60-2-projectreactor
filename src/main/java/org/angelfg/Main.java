@@ -32,9 +32,16 @@ public class Main {
 //        FallbackService.callFallback()
 //                .subscribe(v -> log.info(v.toString()));
 
+
+
+        // CALLBACKS
+//        CallbacksExample
+//                .callbacks()
+//                .subscribe();
+
         CallbacksExample
                 .callbacks()
-                .subscribe();
+                .blockLast();
 
     }
 

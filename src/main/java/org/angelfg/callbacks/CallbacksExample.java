@@ -5,12 +5,19 @@ import org.angelfg.database.Database;
 import org.angelfg.models.Videogame;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
+
 @Slf4j
 public class CallbacksExample {
 
     public static Flux<Videogame> callbacks() {
         return Database
                 .getVideogamesFlux()
+
+                .delayElements(Duration.ofMillis(500)) // Hacer latencia cada elemento
+
+                .timeout(Duration.ofMillis(300)) // Si se tarda manda error
+
                 // Primero llama doOnSubscribe
                 .doOnSubscribe(subs -> log.info("[doOnSubscribe]"))
 
