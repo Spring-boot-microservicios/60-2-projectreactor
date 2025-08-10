@@ -14,9 +14,9 @@ public class CallbacksExample {
         return Database
                 .getVideogamesFlux()
 
-                .delayElements(Duration.ofMillis(500)) // Hacer latencia cada elemento
-
-                .timeout(Duration.ofMillis(300)) // Si se tarda manda error
+                // Generar error
+                //.delayElements(Duration.ofMillis(500)) // Hacer latencia cada elemento
+                //.timeout(Duration.ofMillis(300)) // Si se tarda manda error
 
                 // Primero llama doOnSubscribe
                 .doOnSubscribe(subs -> log.info("[doOnSubscribe]"))

@@ -33,16 +33,23 @@ public class Main {
 //                .subscribe(v -> log.info(v.toString()));
 
 
+        // callbacks();
 
+    }
+
+    private static void callbacks() {
         // CALLBACKS
-//        CallbacksExample
-//                .callbacks()
-//                .subscribe();
-
         CallbacksExample
                 .callbacks()
-                .blockLast();
+                .subscribe(
+                        data -> log.debug(data.getName()), // Se basa en onNext
+                        err -> log.error(err.getMessage()), // Se ejecuta en base a onError
+                        () -> log.debug("Finish subs") // Se ejecuta en base onFinally
+                ); // Se ejecuta desde la subscripcion y doOnNext dentro de la emision
 
+//        CallbacksExample
+//                .callbacks()
+//                .blockLast();
     }
 
     private static void tuplas() {
