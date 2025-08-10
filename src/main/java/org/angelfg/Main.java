@@ -1,6 +1,7 @@
 package org.angelfg;
 
 import lombok.extern.slf4j.Slf4j;
+import org.angelfg.errorhandler.FallbackService;
 import org.angelfg.errorhandler.HandleDisabledVideogame;
 import org.angelfg.pipelines.PipelineAllComments;
 import org.angelfg.pipelines.PipelineSumAllPricesInDiscount;
@@ -24,7 +25,10 @@ public class Main {
 //        HandleDisabledVideogame.handleDisabledVideogames()
 //                .subscribe(System.out::println);
 
-        HandleDisabledVideogame.handleDisabledVideogamesDefault()
+//        HandleDisabledVideogame.handleDisabledVideogamesDefault()
+//                .subscribe(v -> log.info(v.toString()));
+
+        FallbackService.callFallback()
                 .subscribe(v -> log.info(v.toString()));
 
     }
