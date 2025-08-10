@@ -1,6 +1,7 @@
 package org.angelfg;
 
 import lombok.extern.slf4j.Slf4j;
+import org.angelfg.callbacks.CallbacksExample;
 import org.angelfg.errorhandler.FallbackService;
 import org.angelfg.errorhandler.HandleDisabledVideogame;
 import org.angelfg.pipelines.PipelineAllComments;
@@ -28,8 +29,12 @@ public class Main {
 //        HandleDisabledVideogame.handleDisabledVideogamesDefault()
 //                .subscribe(v -> log.info(v.toString()));
 
-        FallbackService.callFallback()
-                .subscribe(v -> log.info(v.toString()));
+//        FallbackService.callFallback()
+//                .subscribe(v -> log.info(v.toString()));
+
+        CallbacksExample
+                .callbacks()
+                .subscribe();
 
     }
 
