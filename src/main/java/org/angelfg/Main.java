@@ -20,6 +20,13 @@ import java.time.Duration;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
+        // projectReactorBases();
+
+
+
+    }
+
+    private static void projectReactorBases() throws InterruptedException {
         // basesMono();
         // basesFlux();
         // pipelines();
@@ -73,7 +80,6 @@ public class Main {
         hotPublisher.subscribe(n -> log.info("[s6] {}", n));
 
         Thread.sleep(10000);
-
     }
 
     private static void context() {

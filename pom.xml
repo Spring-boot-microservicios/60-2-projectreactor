@@ -52,6 +52,12 @@
             <version>3.0.0-alpha1</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>3.8.0-M6</version>
+        </dependency>
+
     </dependencies>
 
 </project>
